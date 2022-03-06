@@ -1,20 +1,20 @@
 <div id="top"></div>
 <br />
 <div align="center">
-<h3 align="center">ESP32 with BME680 sensor (Temperature, Humidity, Pressure, Gas), Webserver and MQTT-Client</h3>
+<h3 align="center">ESP32 DHT temperature/humidity Wifi Webserver & MQTT client</h3>
 
   <p align="center">
-      Arduino prog for BME680 sensor
+      Arduino prog for DHT11, DHT22 (AM2302), DHT21 (AM2301) sensor
       <br/>
       with WiFi, dis-/enabled Webserver and dis-/enabled MQTT client
       <br/>
       <br/>
-    <a href="https://github.com/Zheng-Bote/esp32_bme680_webserver_mqtt-client/wiki"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Zheng-Bote/esp32_bme680_webserver_mqtt-client/issues">Report Bug</a>
+    <a href="https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Zheng-Bote/esp32_bme680_webserver_mqtt-client/issues">Request Feature</a>
+    <a href="https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client/issues">Request Feature</a>
   </p>
 </div>
 
@@ -46,8 +46,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-### ESP32 temperature/humidity/pressure/gas Wifi Webserver & MQTT client
-Arduino prog for BME680 sensor with WiFi, dis-/enabled Webserver and dis-/enabled MQTT client
+### ESP32 temperature/humidity Wifi Webserver & MQTT client
+Arduino prog for DHT11, DHT22 (AM2302), DHT21 (AM2301)sensor with WiFi, dis-/enabled Webserver and dis-/enabled MQTT client
 * optional: show Temperature and Humidity on Website (refresh every 15 seconds)
 * optional: MQTT client intervall publishing (customizable)
 * optional: MQTT publish data and do ESP32 deep sleep intervall (customizable) 
@@ -56,11 +56,11 @@ Arduino prog for BME680 sensor with WiFi, dis-/enabled Webserver and dis-/enable
 
 Webserver / website with firmware update message
 
-<img src="https://github.com/Zheng-Bote/ESP32_BME680_Webserver_MQTT-Client/wiki/img/web_02.png" />
+<img src="https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client/wiki/img/web_02.png" />
 
 MQTT client (Terminal)
 
-<img src="https://github.com/Zheng-Bote/ESP32_BME680_Webserver_MQTT-Client/wiki/img/terminal_01.png" />
+<img src="https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client/wiki/img/terminal.png" />
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -81,13 +81,12 @@ install the Arduino IDE or use the web online version
   `https://create.arduino.cc/editor`
 * some included libraries needs additional Arduino libraries (e.g. PubSubClient. See header comments)
 * MQTT PubSubClient
-* Zanshin_BME680 (https://github.com/Zanduino/BME680)
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/Zheng-Bote/ESP32_BME680_Webserver_MQTT-Client.git
+   git clone https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client.git
    ```
 2. fill in your credentials
    `credentials.h`
@@ -144,7 +143,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ZHENG Robert Zhèng Bó Tè 郑 伯特
 
-Project Link: [https://github.com/Zheng-Bote/ESP32_BME680_Webserver_MQTT-Client](https://github.com/Zheng-Bote/ESP32_BME680_Webserver_MQTT-Client)
+Project Link: [https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client](https://github.com/Zheng-Bote/esp32_dht_webserver_mqtt-client)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
