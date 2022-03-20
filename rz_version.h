@@ -1,17 +1,17 @@
-/*
-LIB: 
-  rz_version.h
-DESC: 
-  Arduino library, compares two semantic version strings
-  - based on a function developed by Pankaj Choudhary. Unfortunately I've lost the contact and his website. Please contact me 
-
-SOURCE: 
-  https://github.com/Zheng-Bote/ESP32_libs
-
-Version | Date       | Developer        | Comments
-------- | ---------- | ---------------- | ---------------------------------------------------------------
-        |            | Pankaj Choudhary | main function developed
-1.0.0   | 2022-02-26 | RZheng           | lib created 
+/**
+* LIB: 
+*  rz_version.h
+* DESC: 
+*  Arduino library, compares two semantic version strings
+*  - based on a function developed by Pankaj Choudhary. Unfortunately I've lost the contact and his website. Please contact me 
+*
+* SOURCE: 
+*   https://github.com/Zheng-Bote/ESP32_libs
+*
+* Version | Date       | Developer        | Comments
+* ------- | ---------- | ---------------- | ---------------------------------------------------------------
+*         |            | Pankaj Choudhary | main function developed
+* 1.0.0   | 2022-02-26 | RZheng           | lib created 
 
 
 ##### Usage:

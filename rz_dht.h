@@ -10,7 +10,8 @@ SOURCE:
 Version | Date       | Developer  | Comments
 ------- | ---------- | ---------- | ---------------------------------------------------------------
 1.0.0   | 2022-02-26 | RZheng     | created 
-
+1.1.0   | 2022-02-27 | RZheng     | fixed: some low quality DHT sensors needs 1 second pause 
+        
 */
 
 #ifndef rz_dht_h

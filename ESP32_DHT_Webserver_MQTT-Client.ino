@@ -18,15 +18,16 @@ Version | Date       | Developer                         | Comments
 ------- | ---------- | --------------------------------- | ---------------------------------------------------------------
 0.1.0   | 2022-02-20 | https://github.com/Zheng-Bote     | created; WiFi, Webserver and MQTT client
 1.0.0   | 2022-02-23 | https://github.com/Zheng-Bote     | clean-up, separating into libs
-        |            |                                   | to dos: - automatic firmware update and reboot, if enabled
-                                                                   - enable MQTT subscribing
-                                                                   - code / libraries clean up
+1.1.0   | 2022-02-27 | RZHeng                            | fixed: MQTT publish needs 2 sec. before Deep Sleep
+        |            |                                   | fixed: Deep Sleep crashed if more than 30 mins. 
+        |            |                                   | fixed: some low quality DHT sensors needs 1 second pause 
+                                                                   
 
 */
 
 // ##### 
 const char* appTitle = "ESP32 Temp/Hum Wifi Webserver & MQTT client";
-const char *appVersion = "1.0.0";
+const char *appVersion = "1.1.0";
 
 bool firmwareUpdateAvailable = false;
 const int led = 13;
@@ -64,7 +65,7 @@ void setup() {
   Serial.print("\nStarting\n- "); 
   digitalWrite(led, 1);
   Serial.print(appTitle); Serial.print(" v"); Serial.println(appVersion);
-  Serial.print("-- on "); Serial.println(esp32System->getHostId().c_str());
+  Serial.print("-- on "); Serial.println(esp32System->getHostName().c_str());
   
   Serial.print(F("- Initializing WiFi\n"));
   if(mywifi->startWiFi()) {
@@ -73,8 +74,8 @@ void setup() {
     Serial.print("-- IP-Address "); Serial.println(mywifi->getIpAddr());
 
     Serial.print(F("- Initializing MDNS responder\n"));
-    if(mywifi->startMDNS(esp32System->getHostId())) {
-      bufferStr = esp32System->getHostId() + ".local";
+    if(mywifi->startMDNS(esp32System->getHostName())) {
+      bufferStr = esp32System->getHostName() + ".local";
       Serial.print("-- MDNS started: "); Serial.println(bufferStr.c_str());
     }
     else {
@@ -93,6 +94,11 @@ void setup() {
 
   Serial.print(F("- Initializing DHT sensor\n"));
   dhtsensor->readData();
+  if(dhtsensor->getSensorStatus()) {
+    Serial.println("\n-- DHT sensor failed. => restart in 10 seconds\n");
+    delay(10000);
+    esp32System->doRestart();
+  }
   Serial.print("-- Temperature: "); Serial.println(dhtsensor->getTemperature());
   Serial.print("-- Humidity: "); Serial.println(dhtsensor->getHumidity());
 
@@ -101,12 +107,13 @@ void setup() {
     Serial.print(F("- Initializing MQTT client\n"));
     Serial.print("-- MQTT publish interval in seconds: ");
     Serial.println(mqttInterval / 1000);
-    rz_mqttclient_start(esp32System->getHostId());
-    bufferStr = esp32System->getHostId() + "/status";
+    rz_mqttclient_start(esp32System->getHostName());
+    bufferStr = esp32System->getHostName() + "/status";
     esp32System->ntpLocalTime(ntpServer, gmtOffset_sec, daylightOffset_sec);
     strcpy(buffer, esp32System->getDateTimeString().c_str()); 
     rz_mqtt_sendMsg(bufferStr, buffer); 
     sendMqttData();
+    delay(1000);
   }
 
   if(enableWebserver) {
@@ -116,7 +123,7 @@ void setup() {
     webServer.on("/checkversion", getVersion);
     webServer.begin();
     Serial.println("-- HTTP server started");
-    bufferStr = "-- http://" + esp32System->getHostId() + ".local:";
+    bufferStr = "-- http://" + esp32System->getHostName() + ".local:";
     Serial.print(bufferStr.c_str()); Serial.println( + webserverPort);
   }
   
@@ -144,6 +151,8 @@ void checkVersion(int ret) {
 void getDataJson() {
   std::string bufferStr;
   std::string buffer;
+  
+  dhtsensor->readData();
 
   bufferStr = "{\"temperature\": \"";
   buffer = dhtsensor->getTemperature().c_str();
@@ -189,9 +198,12 @@ void getVersion() {
 void sendMqttData() {
   std::string bufferStr;
   char buffer[10];
+  
+  dhtsensor->readData();
     
-  bufferStr = esp32System->getHostId() + "/temperature";
+  bufferStr = esp32System->getHostName() + "/temperature";
   strcpy(buffer, dhtsensor->getTemperature().c_str()); 
+  //buffer = dhtsensor->getTemperature();
 
   /*Serial.println("sendMqttData");
   Serial.println(buffer);
@@ -199,8 +211,9 @@ void sendMqttData() {
   
   rz_mqtt_sendMsg(bufferStr, buffer); 
   
-  bufferStr = esp32System->getHostId() + "/humidity";
+  bufferStr = esp32System->getHostName() + "/humidity";
   strcpy(buffer, dhtsensor->getHumidity().c_str()); 
+  //buffer = dhtsensor->getHumidity();
 
   /*Serial.println("sendMqttData");
   Serial.println(buffer);

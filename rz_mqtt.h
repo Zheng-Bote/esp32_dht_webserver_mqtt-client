@@ -4,6 +4,9 @@ LIB:
 DESC: 
   Arduino library for ESP32, with some MQTT client functionalities (publish, subscribe)
 
+DEPENDENCIES:
+  PubSubClient
+  
 SOURCE: 
   https://github.com/Zheng-Bote/ESP32_libs
 
@@ -78,10 +81,10 @@ bool rz_mqtt_sendMsg(std::string mqtt_topic, char mqtt_msg[])
   //strcpy(mqtt_topicStr, mqtt_topic.c_str());
   strcat(mqtt_topicStr, mqtt_topic.c_str());
 
-  //Serial.print("MQTT Message:\nTopic: ");
-  //Serial.println(mqtt_topicStr);
-  //Serial.print("Message: ");
-  //Serial.println(mqtt_msg);
+  /* Serial.print("MQTT Message:\nTopic: ");
+  Serial.println(mqtt_topicStr);
+  Serial.print("Message: ");
+  Serial.println(mqtt_msg); */
     
     if (mqtt_client.publish(mqtt_topicStr, mqtt_msg) == true) 
     {
@@ -90,7 +93,7 @@ bool rz_mqtt_sendMsg(std::string mqtt_topic, char mqtt_msg[])
     } 
     else 
     {
-      //Serial.println("MQTT error sending message");
+      Serial.println("-- MQTT error sending message --");
       return false;
     }
 }
